@@ -1,0 +1,78 @@
+name: furrow
+description: A simple garden tracker for growing food. Log plants, get frost alerts, and track harvests season over season.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.6.0
+  flutter: ">=3.27.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State Management
+  flutter_riverpod: ^2.6.1
+  riverpod_annotation: ^2.6.1
+
+  # Routing
+  go_router: ^14.8.1
+
+  # Local Database
+  drift: ^2.23.1
+  sqlite3_flutter_libs: ^0.5.28
+
+  # Cloud Sync (future)
+  supabase_flutter: ^2.8.3
+
+  # Networking
+  dio: ^5.7.0
+
+  # Image Handling
+  image_picker: ^1.1.2
+  cached_network_image: ^3.4.1
+
+  # Charts
+  fl_chart: ^0.70.2
+
+  # Notifications
+  flutter_local_notifications: ^18.0.1
+
+  # Location
+  geolocator: ^13.0.2
+  geocoding: ^3.0.0
+
+  # Utilities
+  intl: ^0.19.0
+  path_provider: ^2.1.5
+  path: ^1.9.1
+  uuid: ^4.5.1
+  google_fonts: ^6.2.1
+  shared_preferences: ^2.3.4
+  share_plus: ^10.1.4
+
+  # Code Generation (runtime)
+  freezed_annotation: ^2.4.4
+  json_annotation: ^4.9.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+  # App Icon Generation
+  flutter_launcher_icons: ^0.14.3
+
+  # Code Generation
+  build_runner: ^2.4.14
+  riverpod_generator: ^2.6.3
+  freezed: ^2.5.8
+  json_serializable: ^6.9.4
+  drift_dev: ^2.23.1
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/

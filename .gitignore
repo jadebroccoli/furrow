@@ -1,0 +1,39 @@
+# Flutter/Dart
+.dart_tool/
+.packages
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+*.iml
+*.lock
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Generated files
+*.g.dart
+*.freezed.dart
+*.mocks.dart
+
+# Firebase
+google-services.json
+GoogleService-Info.plist
+firebase_options.dart
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Release signing
+android/key.properties
+android/upload-keystore.jks
+
+# Debug screenshots
+screenshot_*.png
+
+# Environment
+.env
+.env.*
