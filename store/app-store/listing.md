@@ -53,7 +53,7 @@ Secondary: Lifestyle
 - Furrow Pro Annual: $19.99/year (auto-renewable)
 
 ## Privacy Policy URL
-[TODO: Host privacy policy and add URL]
+https://jadebroccoli.github.io/furrow/privacy-policy.html
 
 ## App Privacy (nutrition labels)
 - Location: Used for frost alert weather checks (not linked to identity)
@@ -61,4 +61,4 @@ Secondary: Lifestyle
 - No data collected or shared with third parties
 
 ## Support URL
-[TODO: Support page or email]
+https://jadebroccoli.github.io/furrow/privacy-policy.html

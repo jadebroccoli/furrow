@@ -58,7 +58,7 @@ Expected rating: Everyone / PEGI 3
 - Furrow Pro Annual: $19.99/year
 
 ## Privacy Policy URL
-[TODO: Host privacy policy and add URL]
+https://jadebroccoli.github.io/furrow/privacy-policy.html
 
 ## Contact Email
-[TODO: Developer contact email]
+jadebroccoli@gmail.com
