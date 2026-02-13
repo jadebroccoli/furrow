@@ -6,6 +6,9 @@
     <!-- Internet for Open-Meteo weather API -->
     <uses-permission android:name="android.permission.INTERNET"/>
 
+    <!-- In-app billing for RevenueCat subscriptions -->
+    <uses-permission android:name="com.android.vending.BILLING"/>
+
     <application
         android:label="Furrow"
         android:name="${applicationName}"

@@ -382,6 +382,7 @@ class _PlantListView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final isPro = ref.watch(isProProvider);
+    final photoMap = ref.watch(latestPlantPhotosProvider).valueOrNull ?? {};
     final dateFormat = DateFormat('MMM d, yyyy');
 
     return ListView.builder(
@@ -443,6 +444,7 @@ class _PlantListView extends ConsumerWidget {
             status: plant.status,
             plantedDate: dateFormat.format(plant.plantedDate),
             category: plant.category,
+            photoUrl: photoMap[plant.id],
             plantedDateRaw: plant.plantedDate,
             expectedHarvestDate: plant.expectedHarvestDate,
             showProgress: isPro,

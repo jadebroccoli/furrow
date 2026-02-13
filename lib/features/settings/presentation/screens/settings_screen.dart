@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/services/revenue_cat_service.dart';
 import '../../../../shared/constants/app_constants.dart';
 import '../../../../shared/theme/color_schemes.dart';
 import '../../../paywall/presentation/providers/entitlement_providers.dart';
@@ -176,27 +178,37 @@ class SettingsScreen extends ConsumerWidget {
                           color: colorScheme.onSurfaceVariant,
                         ),
                       ),
-                    ] else
+                    ] else ...[
                       Text(
                         'All features unlocked. Thank you for supporting Furrow!',
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: colorScheme.onSurfaceVariant,
                         ),
                       ),
+                      const SizedBox(height: 12),
+                      OutlinedButton.icon(
+                        onPressed: () {
+                          RevenueCatService.instance.presentCustomerCenter();
+                        },
+                        icon: const Icon(Icons.manage_accounts, size: 18),
+                        label: const Text('Manage Subscription'),
+                      ),
+                    ],
 
-                    const Divider(height: 24),
-
-                    // Debug toggle
-                    SwitchListTile(
-                      contentPadding: EdgeInsets.zero,
-                      title: const Text('Debug: Pro Override'),
-                      subtitle: const Text(
-                          'Toggle Pro status for testing'),
-                      value: ref.watch(isProProvider),
-                      onChanged: (_) {
-                        ref.read(isProProvider.notifier).toggle();
-                      },
-                    ),
+                    // Debug toggle — only visible in debug builds
+                    if (kDebugMode) ...[
+                      const Divider(height: 24),
+                      SwitchListTile(
+                        contentPadding: EdgeInsets.zero,
+                        title: const Text('Debug: Pro Override'),
+                        subtitle: const Text(
+                            'Toggle Pro status for testing'),
+                        value: ref.watch(isProProvider),
+                        onChanged: (_) {
+                          ref.read(isProProvider.notifier).toggle();
+                        },
+                      ),
+                    ],
                   ],
                 ),
               ),

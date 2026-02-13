@@ -20,6 +20,12 @@ final plantByIdProvider =
   return db.watchPlant(plantId);
 });
 
+/// Stream provider: latest journal photo path for each plant (single query)
+final latestPlantPhotosProvider = StreamProvider<Map<String, String>>((ref) {
+  final db = ref.watch(databaseProvider);
+  return db.watchLatestPlantPhotos();
+});
+
 /// Notifier that handles plant write operations (add, update, delete)
 final plantActionsProvider = Provider<PlantActions>((ref) {
   final db = ref.watch(databaseProvider);
@@ -30,8 +36,8 @@ class PlantActions {
   PlantActions(this._db);
   final AppDatabase _db;
 
-  /// Add a new plant to the database
-  Future<void> addPlant({
+  /// Add a new plant to the database. Returns the generated plant ID.
+  Future<String> addPlant({
     required String name,
     String? variety,
     required String category,
@@ -43,9 +49,10 @@ class PlantActions {
     String? notes,
     String? photoUrl,
   }) async {
+    final plantId = _uuid.v4();
     final now = DateTime.now();
     final companion = PlantsCompanion(
-      id: Value(_uuid.v4()),
+      id: Value(plantId),
       name: Value(name),
       variety: Value(variety),
       category: Value(category),
@@ -60,6 +67,7 @@ class PlantActions {
       updatedAt: Value(now),
     );
     await _db.insertPlant(companion);
+    return plantId;
   }
 
   /// Update an existing plant

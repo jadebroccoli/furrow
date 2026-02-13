@@ -1,37 +1,59 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 
-import '../../../settings/presentation/providers/settings_providers.dart';
-
-const _isProKey = 'debug_is_pro';
+import '../../../../core/services/revenue_cat_service.dart';
 
 /// Single source of truth: is the user a Pro subscriber?
-/// Currently backed by SharedPreferences for debug/testing.
-/// Wire to RevenueCat entitlements when ready for production.
+/// Backed by RevenueCat entitlement checks.
 final isProProvider = StateNotifierProvider<ProStatusNotifier, bool>((ref) {
-  final prefsAsync = ref.watch(sharedPrefsProvider);
-  final prefs = prefsAsync.valueOrNull;
-  return ProStatusNotifier(prefs);
+  final notifier = ProStatusNotifier();
+  ref.onDispose(() => notifier.dispose());
+  return notifier;
 });
 
 class ProStatusNotifier extends StateNotifier<bool> {
-  ProStatusNotifier(this._prefs) : super(_loadInitial(_prefs));
-
-  final SharedPreferences? _prefs;
-
-  static bool _loadInitial(SharedPreferences? prefs) {
-    return prefs?.getBool(_isProKey) ?? false;
+  ProStatusNotifier() : super(false) {
+    _init();
   }
 
-  /// Debug toggle
+  bool _debugOverride = false;
+
+  Future<void> _init() async {
+    // Check current entitlement status on launch
+    final isPro = await RevenueCatService.instance.isProUser();
+    if (mounted) state = isPro || _debugOverride;
+
+    // Listen for real-time changes (renewal, expiration, etc.)
+    RevenueCatService.instance.addCustomerInfoListener(_onCustomerInfoUpdate);
+  }
+
+  void _onCustomerInfoUpdate(CustomerInfo info) {
+    final active =
+        info.entitlements.all[RevenueCatService.entitlementId]?.isActive ??
+            false;
+    if (mounted) state = active || _debugOverride;
+  }
+
+  /// Re-check entitlement (e.g. after a paywall purchase).
+  Future<void> refresh() async {
+    final isPro = await RevenueCatService.instance.isProUser();
+    if (mounted) state = isPro || _debugOverride;
+  }
+
+  /// Debug toggle — only works in debug builds.
   void toggle() {
-    state = !state;
-    _prefs?.setBool(_isProKey, state);
+    if (kDebugMode) {
+      _debugOverride = !_debugOverride;
+      state = _debugOverride;
+    }
   }
 
-  /// Set explicitly (for RevenueCat integration later)
-  void setPro(bool value) {
-    state = value;
-    _prefs?.setBool(_isProKey, value);
+  @override
+  void dispose() {
+    RevenueCatService.instance.removeCustomerInfoListener(
+      _onCustomerInfoUpdate,
+    );
+    super.dispose();
   }
 }

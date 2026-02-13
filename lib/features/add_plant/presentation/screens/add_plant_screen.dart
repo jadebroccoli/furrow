@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../shared/constants/app_constants.dart';
@@ -8,6 +11,7 @@ import '../../../../shared/data/plant_grow_data.dart';
 import '../../../../shared/data/plant_species_data.dart';
 import '../../../garden/domain/entities/plant.dart' show PlantCategory, PlantStatus, isHarvestable;
 import '../../../garden/presentation/providers/plant_providers.dart';
+import '../../../journal/presentation/providers/journal_providers.dart';
 import '../../../paywall/presentation/providers/entitlement_providers.dart';
 import '../../../seasons/presentation/providers/season_providers.dart';
 
@@ -31,6 +35,7 @@ class _AddPlantScreenState extends ConsumerState<AddPlantScreen> {
   PlantStatus _status = PlantStatus.seedling;
   DateTime _plantedDate = DateTime.now();
   DateTime? _expectedHarvestDate;
+  String? _photoPath;
   bool _isSaving = false;
   bool _assignToActiveSeason = true;
 
@@ -83,6 +88,54 @@ class _AddPlantScreenState extends ConsumerState<AddPlantScreen> {
     _updateExpectedHarvest();
   }
 
+  Future<void> _pickPhoto(ImageSource source) async {
+    final path = await ref
+        .read(journalActionsProvider)
+        .pickAndSavePhoto(source: source);
+    if (path != null) {
+      setState(() => _photoPath = path);
+    }
+  }
+
+  void _showPhotoOptions() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.camera_alt),
+              title: const Text('Take Photo'),
+              onTap: () {
+                Navigator.pop(context);
+                _pickPhoto(ImageSource.camera);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo_library),
+              title: const Text('Choose from Gallery'),
+              onTap: () {
+                Navigator.pop(context);
+                _pickPhoto(ImageSource.gallery);
+              },
+            ),
+            if (_photoPath != null)
+              ListTile(
+                leading: const Icon(Icons.delete_outline, color: Colors.red),
+                title: const Text('Remove Photo',
+                    style: TextStyle(color: Colors.red)),
+                onTap: () {
+                  Navigator.pop(context);
+                  setState(() => _photoPath = null);
+                },
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Future<void> _savePlant() async {
     if (!_formKey.currentState!.validate()) return;
     if (_isSaving) return;
@@ -105,7 +158,7 @@ class _AddPlantScreenState extends ConsumerState<AddPlantScreen> {
       final seasonId =
           (_assignToActiveSeason && activeSeason != null) ? activeSeason.id : null;
 
-      await ref.read(plantActionsProvider).addPlant(
+      final plantId = await ref.read(plantActionsProvider).addPlant(
             name: _nameController.text.trim(),
             variety: _varietyController.text.trim().isNotEmpty
                 ? _varietyController.text.trim()
@@ -118,7 +171,18 @@ class _AddPlantScreenState extends ConsumerState<AddPlantScreen> {
             notes: _notesController.text.trim().isNotEmpty
                 ? _notesController.text.trim()
                 : null,
+            photoUrl: _photoPath,
           );
+
+      // Create initial journal entry with photo so thumbnail shows immediately
+      if (_photoPath != null) {
+        await ref.read(journalActionsProvider).addJournalEntry(
+              plantId: plantId,
+              date: _plantedDate,
+              photoPath: _photoPath,
+              note: 'Added to garden',
+            );
+      }
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -498,17 +562,48 @@ class _AddPlantScreenState extends ConsumerState<AddPlantScreen> {
             ),
             const SizedBox(height: 16),
 
-            // Photo placeholder
-            OutlinedButton.icon(
-              onPressed: () {
-                // TODO: Open image picker
-              },
-              icon: const Icon(Icons.camera_alt),
-              label: const Text('Add Photo'),
-              style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16),
+            // Photo picker
+            if (_photoPath != null)
+              GestureDetector(
+                onTap: _showPhotoOptions,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Stack(
+                    children: [
+                      SizedBox(
+                        height: 160,
+                        width: double.infinity,
+                        child: Image.file(
+                          File(_photoPath!),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      Positioned(
+                        right: 8,
+                        top: 8,
+                        child: Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            color: Colors.black45,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: const Icon(Icons.edit,
+                              size: 16, color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            else
+              OutlinedButton.icon(
+                onPressed: _showPhotoOptions,
+                icon: const Icon(Icons.camera_alt),
+                label: const Text('Add Photo'),
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                ),
               ),
-            ),
           ],
         ),
       ),

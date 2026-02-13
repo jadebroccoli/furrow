@@ -41,9 +41,10 @@ class AppConstants {
   static const int freePlantLimit = 5;
   static const int freeSeasonLimit = 1;
 
-  // Pro tier pricing (display only — actual IAP via store)
+  // Pro tier pricing (display fallbacks — actual prices from RevenueCat)
   static const String proMonthlyPrice = '\$2.99/mo';
   static const String proYearlyPrice = '\$19.99/yr';
+  static const String proLifetimePrice = '\$49.99';
 
   // Onboarding
   static const String onboardingCompleteKey = 'onboarding_complete';

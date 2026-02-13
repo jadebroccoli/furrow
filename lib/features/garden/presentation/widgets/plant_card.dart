@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import '../../../../shared/widgets/furrow_card.dart';
 import '../../../../shared/theme/color_schemes.dart';
@@ -80,6 +82,45 @@ class PlantCard extends StatelessWidget {
     }
   }
 
+  /// Build the 56x56 avatar: journal photo if available, else category icon
+  Widget _buildAvatar(ColorScheme colorScheme) {
+    if (photoUrl != null) {
+      final file = File(photoUrl!);
+      if (file.existsSync()) {
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(12),
+          child: SizedBox(
+            width: 56,
+            height: 56,
+            child: Image.file(
+              file,
+              fit: BoxFit.cover,
+              errorBuilder: (_, __, ___) => _categoryIconAvatar(colorScheme),
+            ),
+          ),
+        );
+      }
+    }
+    return _categoryIconAvatar(colorScheme);
+  }
+
+  /// Fallback: category icon in a colored container
+  Widget _categoryIconAvatar(ColorScheme colorScheme) {
+    return Container(
+      width: 56,
+      height: 56,
+      decoration: BoxDecoration(
+        color: colorScheme.primaryContainer,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Icon(
+        _categoryIcon(),
+        color: colorScheme.onPrimaryContainer,
+        size: 28,
+      ),
+    );
+  }
+
   /// Build the harvest progress bar + label
   Widget _buildHarvestProgress(ThemeData theme, ColorScheme colorScheme) {
     final progress = harvestProgress(plantedDateRaw!, expectedHarvestDate!);
@@ -129,20 +170,8 @@ class PlantCard extends StatelessWidget {
       onTap: onTap,
       child: Row(
         children: [
-          // Plant category icon
-          Container(
-            width: 56,
-            height: 56,
-            decoration: BoxDecoration(
-              color: colorScheme.primaryContainer,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(
-              _categoryIcon(),
-              color: colorScheme.onPrimaryContainer,
-              size: 28,
-            ),
-          ),
+          // Plant photo or category icon
+          _buildAvatar(colorScheme),
           const SizedBox(width: 16),
 
           // Plant info

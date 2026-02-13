@@ -279,6 +279,7 @@ class PlantDetailScreen extends ConsumerWidget {
                             builder: (_) => LogHarvestDialog(
                               plantId: plant.id,
                               plantName: plant.name,
+                              plantSeasonId: plant.seasonId,
                             ),
                           );
                         },

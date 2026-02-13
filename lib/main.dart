@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'app.dart';
 import 'core/services/notification_service.dart';
+import 'core/services/revenue_cat_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize notifications
   await NotificationService.instance.initialize();
+
+  // Initialize RevenueCat for in-app purchases
+  await RevenueCatService.instance.initialize();
 
   // TODO: Initialize Supabase for cloud sync
   // await Supabase.initialize(

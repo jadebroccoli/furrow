@@ -9,10 +9,14 @@ class LogHarvestDialog extends ConsumerStatefulWidget {
     super.key,
     required this.plantId,
     required this.plantName,
+    this.plantSeasonId,
   });
 
   final String plantId;
   final String plantName;
+
+  /// Season the plant is assigned to. Used first; falls back to active season.
+  final String? plantSeasonId;
 
   @override
   ConsumerState<LogHarvestDialog> createState() => _LogHarvestDialogState();
@@ -56,11 +60,11 @@ class _LogHarvestDialogState extends ConsumerState<LogHarvestDialog> {
       return;
     }
 
-    // Check for active season
-    final activeSeasonAsync = ref.read(activeSeasonProvider);
-    final activeSeason = activeSeasonAsync.value;
+    // Use the plant's assigned season first, then fall back to active season
+    final String? seasonId = widget.plantSeasonId ??
+        ref.read(activeSeasonProvider).value?.id;
 
-    if (activeSeason == null) {
+    if (seasonId == null) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -79,7 +83,7 @@ class _LogHarvestDialogState extends ConsumerState<LogHarvestDialog> {
       await ref.read(seasonActionsProvider).logHarvest(
             plantId: widget.plantId,
             plantName: widget.plantName,
-            seasonId: activeSeason.id,
+            seasonId: seasonId,
             date: _date,
             quantity: quantity,
             unit: _unit,

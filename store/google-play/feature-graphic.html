@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1024">
+<title>Furrow Feature Graphic</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1024px;
+    height: 500px;
+    overflow: hidden;
+    font-family: 'Nunito', sans-serif;
+    background: #2D5A27;
+  }
+
+  .canvas {
+    position: relative;
+    width: 1024px;
+    height: 500px;
+    overflow: hidden;
+    /* Lighter earthy green gradient — matching icon tones */
+    background:
+      radial-gradient(ellipse 500px 400px at 650px 250px, rgba(255,255,255,0.07) 0%, transparent 70%),
+      radial-gradient(ellipse 400px 350px at 150px 450px, rgba(0,0,0,0.15) 0%, transparent 70%),
+      linear-gradient(145deg, #3A7A32 0%, #2D5A27 35%, #306B2A 60%, #245220 100%);
+  }
+
+  /* ─── Botanical motifs (SVG leaf/vine shapes) ─── */
+  .motif {
+    position: absolute;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Large monstera-style leaf, top-left */
+  .motif-leaf-tl {
+    top: -40px;
+    left: -30px;
+    width: 280px;
+    height: 300px;
+    opacity: 0.40;
+    transform: rotate(-15deg);
+  }
+
+  /* Trailing vine, bottom-left */
+  .motif-vine-bl {
+    bottom: -10px;
+    left: 100px;
+    width: 350px;
+    height: 180px;
+    opacity: 0.35;
+    transform: rotate(5deg);
+  }
+
+  /* Small leaf cluster, top-right area */
+  .motif-leaf-tr {
+    top: -20px;
+    right: 80px;
+    width: 200px;
+    height: 220px;
+    opacity: 0.30;
+    transform: rotate(25deg) scaleX(-1);
+  }
+
+  /* Fern frond, bottom-right */
+  .motif-fern-br {
+    bottom: -30px;
+    right: -20px;
+    width: 250px;
+    height: 260px;
+    opacity: 0.35;
+    transform: rotate(180deg);
+  }
+
+  /* Subtle circular glow accents */
+  .glow {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .glow-1 {
+    width: 300px;
+    height: 300px;
+    top: -60px;
+    left: -40px;
+    background: radial-gradient(circle, rgba(102, 187, 106, 0.15) 0%, transparent 70%);
+  }
+  .glow-2 {
+    width: 250px;
+    height: 250px;
+    bottom: -40px;
+    right: 250px;
+    background: radial-gradient(circle, rgba(212, 160, 23, 0.08) 0%, transparent 70%);
+  }
+
+  /* Thin decorative line */
+  .accent-line {
+    position: absolute;
+    left: 60px;
+    top: 342px;
+    width: 260px;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.35) 0%, transparent 100%);
+    border-radius: 1px;
+    z-index: 5;
+  }
+
+  /* ─── Left text area ─── */
+  .text-area {
+    position: absolute;
+    left: 56px;
+    top: 70px;
+    width: 330px;
+    z-index: 10;
+  }
+
+  .app-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 18px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.35), 0 0 0 2px rgba(255,255,255,0.12);
+    margin-bottom: 20px;
+  }
+
+  .app-name {
+    font-size: 48px;
+    font-weight: 900;
+    color: #FFFFFF;
+    line-height: 1.05;
+    letter-spacing: -0.5px;
+    margin-bottom: 4px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+
+  .subtitle {
+    font-size: 15px;
+    font-weight: 700;
+    color: #E8DEB5;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  }
+
+  .tagline {
+    font-size: 19px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.5;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  }
+  .tagline .highlight {
+    color: #D4F5D0;
+    font-weight: 700;
+  }
+
+  /* Small feature pills */
+  .pills {
+    display: flex;
+    gap: 8px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .pill {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #DFFFDA;
+    letter-spacing: 0.3px;
+  }
+  .pill.gold {
+    background: rgba(212, 160, 23, 0.18);
+    border-color: rgba(212, 160, 23, 0.35);
+    color: #F5E0A0;
+  }
+  .pill.blue {
+    background: rgba(91, 155, 213, 0.15);
+    border-color: rgba(91, 155, 213, 0.30);
+    color: #B8DAFA;
+  }
+
+  /* ─── Phone mockups ─── */
+  .phones {
+    position: absolute;
+    right: -10px;
+    top: 0;
+    width: 620px;
+    height: 500px;
+    z-index: 8;
+  }
+
+  .phone {
+    position: absolute;
+    background: #1C1C1E;
+    border-radius: 28px;
+    padding: 8px;
+    box-shadow:
+      0 20px 60px rgba(0,0,0,0.45),
+      0 0 0 1px rgba(255,255,255,0.08),
+      inset 0 0 0 1px rgba(255,255,255,0.04);
+  }
+
+  .phone-screen {
+    border-radius: 20px;
+    overflow: hidden;
+    background: #121410;
+  }
+
+  .phone-screen img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  /* Left phone — Garden list */
+  .phone-left {
+    width: 195px;
+    height: 400px;
+    left: 30px;
+    top: 75px;
+    transform: perspective(800px) rotateY(8deg);
+    z-index: 1;
+    opacity: 0.92;
+  }
+  .phone-left .phone-screen {
+    width: 179px;
+    height: 384px;
+  }
+
+  /* Center phone — Plant detail (larger, forward) */
+  .phone-center {
+    width: 230px;
+    height: 470px;
+    left: 200px;
+    top: 18px;
+    z-index: 3;
+    box-shadow:
+      0 25px 70px rgba(0,0,0,0.5),
+      0 0 0 1px rgba(255,255,255,0.10),
+      0 0 50px rgba(255, 255, 255, 0.04),
+      inset 0 0 0 1px rgba(255,255,255,0.04);
+  }
+  .phone-center .phone-screen {
+    width: 214px;
+    height: 454px;
+  }
+
+  /* Right phone — Analytics */
+  .phone-right {
+    width: 195px;
+    height: 400px;
+    left: 405px;
+    top: 75px;
+    transform: perspective(800px) rotateY(-8deg);
+    z-index: 2;
+    opacity: 0.92;
+  }
+  .phone-right .phone-screen {
+    width: 179px;
+    height: 384px;
+  }
+
+  /* Subtle phone glow */
+  .phone-glow {
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    left: 230px;
+    top: 90px;
+    background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 60%);
+    z-index: 0;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+  <div class="canvas">
+    <!-- Subtle glow accents -->
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+    <div class="accent-line"></div>
+
+    <!-- Botanical motifs — dark green leaf/vine SVGs -->
+    <!-- Large leaf, top-left -->
+    <svg class="motif motif-leaf-tl" viewBox="0 0 280 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M140 290C140 290 20 220 15 100C10 -20 140 10 140 10C140 10 270 -20 265 100C260 220 140 290 140 290Z" fill="#0E2A0C" opacity="0.8"/>
+      <path d="M140 280V30" stroke="#0E2A0C" stroke-width="3" opacity="0.5"/>
+      <path d="M140 80C100 60 60 70 40 100" stroke="#0E2A0C" stroke-width="2" opacity="0.4" fill="none"/>
+      <path d="M140 120C180 100 220 110 240 140" stroke="#0E2A0C" stroke-width="2" opacity="0.4" fill="none"/>
+      <path d="M140 160C100 140 70 155 50 180" stroke="#0E2A0C" stroke-width="2" opacity="0.4" fill="none"/>
+      <path d="M140 200C180 180 215 190 235 215" stroke="#0E2A0C" stroke-width="2" opacity="0.4" fill="none"/>
+    </svg>
+
+    <!-- Trailing vine with small leaves, bottom-left -->
+    <svg class="motif motif-vine-bl" viewBox="0 0 350 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 90C40 80 80 100 120 85C160 70 200 95 240 80C280 65 320 90 350 75" stroke="#0E2A0C" stroke-width="2.5" opacity="0.7" fill="none"/>
+      <!-- Small leaves along vine -->
+      <ellipse cx="60" cy="82" rx="18" ry="10" transform="rotate(-30 60 82)" fill="#0E2A0C" opacity="0.6"/>
+      <ellipse cx="120" cy="80" rx="15" ry="9" transform="rotate(20 120 80)" fill="#0E2A0C" opacity="0.5"/>
+      <ellipse cx="180" cy="88" rx="18" ry="10" transform="rotate(-25 180 88)" fill="#0E2A0C" opacity="0.6"/>
+      <ellipse cx="240" cy="76" rx="14" ry="8" transform="rotate(15 240 76)" fill="#0E2A0C" opacity="0.5"/>
+      <ellipse cx="300" cy="82" rx="16" ry="9" transform="rotate(-20 300 82)" fill="#0E2A0C" opacity="0.55"/>
+      <!-- Curling tendrils -->
+      <path d="M90 85C95 70 105 65 110 72" stroke="#0E2A0C" stroke-width="1.5" opacity="0.4" fill="none"/>
+      <path d="M200 82C205 68 215 62 220 70" stroke="#0E2A0C" stroke-width="1.5" opacity="0.4" fill="none"/>
+      <path d="M310 78C315 64 325 60 328 68" stroke="#0E2A0C" stroke-width="1.5" opacity="0.4" fill="none"/>
+    </svg>
+
+    <!-- Leaf cluster, top-right -->
+    <svg class="motif motif-leaf-tr" viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M100 210C100 210 30 160 25 80C20 0 100 20 100 20C100 20 180 0 175 80C170 160 100 210 100 210Z" fill="#0E2A0C" opacity="0.7"/>
+      <path d="M100 200V30" stroke="#0E2A0C" stroke-width="2.5" opacity="0.45"/>
+      <path d="M100 70C70 55 45 65 35 85" stroke="#0E2A0C" stroke-width="1.5" opacity="0.35" fill="none"/>
+      <path d="M100 110C130 95 155 105 165 125" stroke="#0E2A0C" stroke-width="1.5" opacity="0.35" fill="none"/>
+      <path d="M100 150C70 135 50 148 40 165" stroke="#0E2A0C" stroke-width="1.5" opacity="0.35" fill="none"/>
+    </svg>
+
+    <!-- Fern frond, bottom-right -->
+    <svg class="motif motif-fern-br" viewBox="0 0 250 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M125 250V20" stroke="#0E2A0C" stroke-width="2.5" opacity="0.6"/>
+      <!-- Fern leaflets, alternating sides -->
+      <path d="M125 40C95 30 75 45 70 60" stroke="#0E2A0C" stroke-width="1.5" opacity="0.4" fill="none"/>
+      <path d="M125 40C155 30 175 45 180 60" stroke="#0E2A0C" stroke-width="1.5" opacity="0.4" fill="none"/>
+      <ellipse cx="80" cy="48" rx="20" ry="8" transform="rotate(-20 80 48)" fill="#0E2A0C" opacity="0.5"/>
+      <ellipse cx="170" cy="48" rx="20" ry="8" transform="rotate(20 170 48)" fill="#0E2A0C" opacity="0.5"/>
+
+      <path d="M125 80C90 70 65 88 60 105" stroke="#0E2A0C" stroke-width="1.5" opacity="0.4" fill="none"/>
+      <path d="M125 80C160 70 185 88 190 105" stroke="#0E2A0C" stroke-width="1.5" opacity="0.4" fill="none"/>
+      <ellipse cx="75" cy="90" rx="22" ry="9" transform="rotate(-15 75 90)" fill="#0E2A0C" opacity="0.45"/>
+      <ellipse cx="175" cy="90" rx="22" ry="9" transform="rotate(15 175 90)" fill="#0E2A0C" opacity="0.45"/>
+
+      <path d="M125 120C88 112 60 130 55 150" stroke="#0E2A0C" stroke-width="1.5" opacity="0.35" fill="none"/>
+      <path d="M125 120C162 112 190 130 195 150" stroke="#0E2A0C" stroke-width="1.5" opacity="0.35" fill="none"/>
+      <ellipse cx="72" cy="132" rx="24" ry="10" transform="rotate(-12 72 132)" fill="#0E2A0C" opacity="0.4"/>
+      <ellipse cx="178" cy="132" rx="24" ry="10" transform="rotate(12 178 132)" fill="#0E2A0C" opacity="0.4"/>
+
+      <path d="M125 165C85 158 55 178 50 200" stroke="#0E2A0C" stroke-width="1.5" opacity="0.3" fill="none"/>
+      <path d="M125 165C165 158 195 178 200 200" stroke="#0E2A0C" stroke-width="1.5" opacity="0.3" fill="none"/>
+      <ellipse cx="70" cy="180" rx="26" ry="10" transform="rotate(-8 70 180)" fill="#0E2A0C" opacity="0.35"/>
+      <ellipse cx="180" cy="180" rx="26" ry="10" transform="rotate(8 180 180)" fill="#0E2A0C" opacity="0.35"/>
+    </svg>
+
+    <!-- Left text area -->
+    <div class="text-area">
+      <img src="../../assets/icons/app_icon.png" alt="Furrow" class="app-icon">
+      <div class="app-name">Furrow</div>
+      <div class="subtitle">Your Garden Companion</div>
+      <div class="tagline">
+        Track your garden.<br>
+        <span class="highlight">Grow smarter.</span>
+      </div>
+      <div class="pills">
+        <span class="pill">Photo Journal</span>
+        <span class="pill gold">Harvest Log</span>
+        <span class="pill blue">Frost Alerts</span>
+      </div>
+    </div>
+
+    <!-- Phone mockups -->
+    <div class="phones">
+      <div class="phone-glow"></div>
+
+      <!-- Left: Plant detail -->
+      <div class="phone phone-left">
+        <div class="phone-screen">
+          <img src="../../assets/images/Screenshot_editplant.png" alt="Plant Detail">
+        </div>
+      </div>
+
+      <!-- Center: Garden list (hero screen) -->
+      <div class="phone phone-center">
+        <div class="phone-screen">
+          <img src="../../assets/images/Screenshot_Garden.png" alt="Garden">
+        </div>
+      </div>
+
+      <!-- Right: Analytics -->
+      <div class="phone phone-right">
+        <div class="phone-screen">
+          <img src="../../assets/images/Screenshot_analytics.png" alt="Analytics">
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

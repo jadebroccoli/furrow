@@ -105,6 +105,26 @@ class AppDatabase extends _$AppDatabase {
     return (delete(plants)..where((t) => t.id.equals(plantId))).go();
   }
 
+  /// Watch the latest journal photo path for each plant (single query).
+  /// Returns a map of plantId → photoPath.
+  Stream<Map<String, String>> watchLatestPlantPhotos() {
+    final query = customSelect(
+      'SELECT plant_id, photo_path FROM journal_entries e1 '
+      'WHERE photo_path IS NOT NULL '
+      'AND date = ('
+      '  SELECT MAX(date) FROM journal_entries e2 '
+      '  WHERE e2.plant_id = e1.plant_id AND e2.photo_path IS NOT NULL'
+      ')',
+      readsFrom: {journalEntries},
+    );
+    return query.watch().map((rows) {
+      return {
+        for (final row in rows)
+          row.read<String>('plant_id'): row.read<String>('photo_path'),
+      };
+    });
+  }
+
   // ─── Journal Entry CRUD ───────────────────────────────────
 
   /// Watch all journal entries, newest first

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Furrow Store Screenshots</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: #f0f0f0;
+    padding: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: center;
+  }
+
+  /* Each screenshot card — 1080x1920 at 50% display */
+  .screenshot {
+    width: 540px;
+    height: 960px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    background: linear-gradient(170deg, #E8F5E9 0%, #C8E6C9 30%, #A5D6A7 70%, #81C784 100%);
+    flex-shrink: 0;
+  }
+
+  /* Subtle radial glow overlay */
+  .screenshot::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+      radial-gradient(ellipse 300px 200px at 80% 15%, rgba(255,255,255,0.4) 0%, transparent 70%),
+      radial-gradient(ellipse 200px 200px at 20% 85%, rgba(45,90,39,0.06) 0%, transparent 70%);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* ─── Botanical motifs ─── */
+  .motif {
+    position: absolute;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* Shared SVG fill for light-background motifs */
+  .motif path, .motif ellipse, .motif circle {
+    /* individual fills set inline */
+  }
+
+  /* Top copy area */
+  .copy {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 270px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 36px 36px 20px;
+    z-index: 5;
+    text-align: center;
+  }
+
+  .headline {
+    font-size: 40px;
+    font-weight: 900;
+    color: #1B5E20;
+    line-height: 1.12;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+  }
+
+  .subline {
+    font-size: 18px;
+    font-weight: 600;
+    color: #2E7D32;
+    line-height: 1.4;
+    opacity: 0.8;
+  }
+
+  /* Phone mockup */
+  .phone-wrap {
+    position: absolute;
+    bottom: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+  }
+
+  .phone-frame {
+    width: 420px;
+    background: #1A1A1C;
+    border-radius: 40px;
+    padding: 12px;
+    box-shadow:
+      0 20px 60px rgba(0,0,0,0.25),
+      0 0 0 1px rgba(0,0,0,0.08),
+      inset 0 0 0 1px rgba(255,255,255,0.05);
+  }
+
+  .phone-screen {
+    border-radius: 28px;
+    overflow: hidden;
+    background: #121410;
+  }
+
+  .phone-screen img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .app-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .app-badge img {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  }
+
+  .app-badge span {
+    font-size: 16px;
+    font-weight: 800;
+    color: #2D5A27;
+    letter-spacing: 0.5px;
+  }
+
+  .dev-label {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    font-size: 10px;
+    color: rgba(0,0,0,0.15);
+    z-index: 10;
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ Reusable SVG motifs as inline defs ══════════ -->
+<!-- We'll inline different motifs per screenshot for variety -->
+
+<!-- Screenshot 1: My Garden -->
+<div class="screenshot" id="ss-garden">
+  <!-- Leaf motif top-right -->
+  <svg class="motif" style="top:-30px;right:-20px;width:220px;height:240px;opacity:0.15;transform:rotate(20deg) scaleX(-1);" viewBox="0 0 200 220" fill="none">
+    <path d="M100 210C100 210 30 160 25 80C20 0 100 20 100 20C100 20 180 0 175 80C170 160 100 210 100 210Z" fill="#2E7D32"/>
+    <path d="M100 200V30" stroke="#2E7D32" stroke-width="2.5"/>
+    <path d="M100 70C70 55 45 65 35 85" stroke="#2E7D32" stroke-width="1.5" fill="none"/>
+    <path d="M100 110C130 95 155 105 165 125" stroke="#2E7D32" stroke-width="1.5" fill="none"/>
+    <path d="M100 150C70 135 50 148 40 165" stroke="#2E7D32" stroke-width="1.5" fill="none"/>
+  </svg>
+  <!-- Vine motif bottom-left -->
+  <svg class="motif" style="bottom:320px;left:-10px;width:180px;height:120px;opacity:0.12;transform:rotate(-10deg);" viewBox="0 0 350 180" fill="none">
+    <path d="M0 90C40 80 80 100 120 85C160 70 200 95 240 80C280 65 320 90 350 75" stroke="#2E7D32" stroke-width="3" fill="none"/>
+    <ellipse cx="60" cy="82" rx="18" ry="10" transform="rotate(-30 60 82)" fill="#2E7D32" opacity="0.7"/>
+    <ellipse cx="150" cy="85" rx="16" ry="9" transform="rotate(20 150 85)" fill="#2E7D32" opacity="0.6"/>
+    <ellipse cx="240" cy="78" rx="18" ry="10" transform="rotate(-25 240 78)" fill="#2E7D32" opacity="0.7"/>
+  </svg>
+  <!-- Small leaf bottom-right corner -->
+  <svg class="motif" style="bottom:300px;right:-15px;width:100px;height:110px;opacity:0.10;transform:rotate(40deg);" viewBox="0 0 200 220" fill="none">
+    <path d="M100 210C100 210 30 160 25 80C20 0 100 20 100 20C100 20 180 0 175 80C170 160 100 210 100 210Z" fill="#2E7D32"/>
+  </svg>
+  <div class="copy">
+    <div class="app-badge"><img src="../../assets/icons/app_icon.png" alt=""><span>Furrow</span></div>
+    <div class="headline">Your entire garden,<br>at a glance</div>
+    <div class="subline">Track every plant with photos, status,<br>and harvest progress</div>
+  </div>
+  <div class="phone-wrap"><div class="phone-frame"><div class="phone-screen">
+    <img src="../../assets/images/Screenshot_Garden.png" alt="Garden">
+  </div></div></div>
+</div>
+
+<!-- Screenshot 2: Plant Detail -->
+<div class="screenshot" id="ss-detail">
+  <!-- Fern frond top-left -->
+  <svg class="motif" style="top:-20px;left:-25px;width:200px;height:210px;opacity:0.14;transform:rotate(-20deg);" viewBox="0 0 250 260" fill="none">
+    <path d="M125 250V20" stroke="#2E7D32" stroke-width="2.5"/>
+    <ellipse cx="80" cy="48" rx="20" ry="8" transform="rotate(-20 80 48)" fill="#2E7D32" opacity="0.6"/>
+    <ellipse cx="170" cy="48" rx="20" ry="8" transform="rotate(20 170 48)" fill="#2E7D32" opacity="0.6"/>
+    <ellipse cx="75" cy="90" rx="22" ry="9" transform="rotate(-15 75 90)" fill="#2E7D32" opacity="0.55"/>
+    <ellipse cx="175" cy="90" rx="22" ry="9" transform="rotate(15 175 90)" fill="#2E7D32" opacity="0.55"/>
+    <ellipse cx="72" cy="132" rx="24" ry="10" transform="rotate(-12 72 132)" fill="#2E7D32" opacity="0.5"/>
+    <ellipse cx="178" cy="132" rx="24" ry="10" transform="rotate(12 178 132)" fill="#2E7D32" opacity="0.5"/>
+    <ellipse cx="70" cy="180" rx="26" ry="10" transform="rotate(-8 70 180)" fill="#2E7D32" opacity="0.45"/>
+    <ellipse cx="180" cy="180" rx="26" ry="10" transform="rotate(8 180 180)" fill="#2E7D32" opacity="0.45"/>
+  </svg>
+  <!-- Small leaf right side -->
+  <svg class="motif" style="top:60px;right:-30px;width:140px;height:160px;opacity:0.11;transform:rotate(35deg);" viewBox="0 0 200 220" fill="none">
+    <path d="M100 210C100 210 30 160 25 80C20 0 100 20 100 20C100 20 180 0 175 80C170 160 100 210 100 210Z" fill="#2E7D32"/>
+    <path d="M100 200V30" stroke="#2E7D32" stroke-width="2"/>
+  </svg>
+  <div class="copy">
+    <div class="app-badge"><img src="../../assets/icons/app_icon.png" alt=""><span>Furrow</span></div>
+    <div class="headline">Smart harvest timing<br>& care tips</div>
+    <div class="subline">Know exactly when to harvest<br>with personalized growing data</div>
+  </div>
+  <div class="phone-wrap"><div class="phone-frame"><div class="phone-screen">
+    <img src="../../assets/images/Screenshot_editplant.png" alt="Plant Detail">
+  </div></div></div>
+</div>
+
+<!-- Screenshot 3: Photo Journal -->
+<div class="screenshot" id="ss-journal">
+  <!-- Large leaf top-left -->
+  <svg class="motif" style="top:-40px;left:-20px;width:200px;height:220px;opacity:0.13;transform:rotate(-10deg);" viewBox="0 0 280 300" fill="none">
+    <path d="M140 290C140 290 20 220 15 100C10 -20 140 10 140 10C140 10 270 -20 265 100C260 220 140 290 140 290Z" fill="#2E7D32"/>
+    <path d="M140 280V30" stroke="#2E7D32" stroke-width="3"/>
+    <path d="M140 80C100 60 60 70 40 100" stroke="#2E7D32" stroke-width="2" fill="none"/>
+    <path d="M140 140C180 120 220 130 240 160" stroke="#2E7D32" stroke-width="2" fill="none"/>
+    <path d="M140 200C100 180 70 195 50 220" stroke="#2E7D32" stroke-width="2" fill="none"/>
+  </svg>
+  <!-- Trailing vine right -->
+  <svg class="motif" style="top:150px;right:-20px;width:120px;height:300px;opacity:0.10;transform:rotate(85deg);" viewBox="0 0 350 180" fill="none">
+    <path d="M0 90C40 80 80 100 120 85C160 70 200 95 240 80C280 65 320 90 350 75" stroke="#2E7D32" stroke-width="3" fill="none"/>
+    <ellipse cx="80" cy="82" rx="16" ry="9" transform="rotate(-25 80 82)" fill="#2E7D32" opacity="0.7"/>
+    <ellipse cx="180" cy="85" rx="16" ry="9" transform="rotate(20 180 85)" fill="#2E7D32" opacity="0.6"/>
+    <ellipse cx="280" cy="80" rx="16" ry="9" transform="rotate(-20 280 80)" fill="#2E7D32" opacity="0.65"/>
+  </svg>
+  <div class="copy">
+    <div class="app-badge"><img src="../../assets/icons/app_icon.png" alt=""><span>Furrow</span></div>
+    <div class="headline">Capture your<br>garden's story</div>
+    <div class="subline">Photo journal to document<br>growth, blooms, and harvests</div>
+  </div>
+  <div class="phone-wrap"><div class="phone-frame"><div class="phone-screen">
+    <img src="../../assets/images/Screenshot_Journal.png" alt="Journal">
+  </div></div></div>
+</div>
+
+<!-- Screenshot 4: Frost Alerts -->
+<div class="screenshot" id="ss-alerts">
+  <!-- Fern motif top-right -->
+  <svg class="motif" style="top:-10px;right:-30px;width:210px;height:220px;opacity:0.13;transform:rotate(160deg);" viewBox="0 0 250 260" fill="none">
+    <path d="M125 250V20" stroke="#2E7D32" stroke-width="2.5"/>
+    <ellipse cx="80" cy="48" rx="20" ry="8" transform="rotate(-20 80 48)" fill="#2E7D32" opacity="0.6"/>
+    <ellipse cx="170" cy="48" rx="20" ry="8" transform="rotate(20 170 48)" fill="#2E7D32" opacity="0.6"/>
+    <ellipse cx="75" cy="90" rx="22" ry="9" transform="rotate(-15 75 90)" fill="#2E7D32" opacity="0.55"/>
+    <ellipse cx="175" cy="90" rx="22" ry="9" transform="rotate(15 175 90)" fill="#2E7D32" opacity="0.55"/>
+    <ellipse cx="72" cy="132" rx="24" ry="10" transform="rotate(-12 72 132)" fill="#2E7D32" opacity="0.5"/>
+    <ellipse cx="178" cy="132" rx="24" ry="10" transform="rotate(12 178 132)" fill="#2E7D32" opacity="0.5"/>
+  </svg>
+  <!-- Vine bottom-left -->
+  <svg class="motif" style="bottom:330px;left:-15px;width:160px;height:100px;opacity:0.11;transform:rotate(5deg);" viewBox="0 0 350 180" fill="none">
+    <path d="M0 90C40 80 80 100 120 85C160 70 200 95 240 80" stroke="#2E7D32" stroke-width="3" fill="none"/>
+    <ellipse cx="60" cy="82" rx="16" ry="9" transform="rotate(-30 60 82)" fill="#2E7D32" opacity="0.7"/>
+    <ellipse cx="160" cy="80" rx="14" ry="8" transform="rotate(15 160 80)" fill="#2E7D32" opacity="0.6"/>
+  </svg>
+  <div class="copy">
+    <div class="app-badge"><img src="../../assets/icons/app_icon.png" alt=""><span>Furrow</span></div>
+    <div class="headline">Never lose a plant<br>to frost again</div>
+    <div class="subline">7-day forecast with frost alerts<br>to protect your garden</div>
+  </div>
+  <div class="phone-wrap"><div class="phone-frame"><div class="phone-screen">
+    <img src="../../assets/images/Screenshot_alerts.png" alt="Frost Alerts">
+  </div></div></div>
+</div>
+
+<!-- Screenshot 5: Seasons -->
+<div class="screenshot" id="ss-seasons">
+  <!-- Leaf top-right -->
+  <svg class="motif" style="top:-20px;right:-10px;width:180px;height:200px;opacity:0.14;transform:rotate(15deg) scaleX(-1);" viewBox="0 0 280 300" fill="none">
+    <path d="M140 290C140 290 20 220 15 100C10 -20 140 10 140 10C140 10 270 -20 265 100C260 220 140 290 140 290Z" fill="#2E7D32"/>
+    <path d="M140 280V30" stroke="#2E7D32" stroke-width="3"/>
+    <path d="M140 80C100 60 60 70 40 100" stroke="#2E7D32" stroke-width="2" fill="none"/>
+    <path d="M140 140C180 120 220 130 240 160" stroke="#2E7D32" stroke-width="2" fill="none"/>
+  </svg>
+  <!-- Small leaves left -->
+  <svg class="motif" style="top:100px;left:-25px;width:120px;height:130px;opacity:0.11;transform:rotate(-30deg);" viewBox="0 0 200 220" fill="none">
+    <path d="M100 210C100 210 30 160 25 80C20 0 100 20 100 20C100 20 180 0 175 80C170 160 100 210 100 210Z" fill="#2E7D32"/>
+  </svg>
+  <div class="copy">
+    <div class="app-badge"><img src="../../assets/icons/app_icon.png" alt=""><span>Furrow</span></div>
+    <div class="headline">Grow smarter<br>every season</div>
+    <div class="subline">Track harvests across seasons<br>and compare year over year</div>
+  </div>
+  <div class="phone-wrap"><div class="phone-frame"><div class="phone-screen">
+    <img src="../../assets/images/Screenshot_seasons.png" alt="Seasons">
+  </div></div></div>
+</div>
+
+<!-- Screenshot 6: Analytics -->
+<div class="screenshot" id="ss-analytics">
+  <!-- Fern top-left -->
+  <svg class="motif" style="top:-25px;left:-20px;width:190px;height:200px;opacity:0.13;transform:rotate(-15deg);" viewBox="0 0 250 260" fill="none">
+    <path d="M125 250V20" stroke="#2E7D32" stroke-width="2.5"/>
+    <ellipse cx="80" cy="48" rx="20" ry="8" transform="rotate(-20 80 48)" fill="#2E7D32" opacity="0.6"/>
+    <ellipse cx="170" cy="48" rx="20" ry="8" transform="rotate(20 170 48)" fill="#2E7D32" opacity="0.6"/>
+    <ellipse cx="75" cy="90" rx="22" ry="9" transform="rotate(-15 75 90)" fill="#2E7D32" opacity="0.55"/>
+    <ellipse cx="175" cy="90" rx="22" ry="9" transform="rotate(15 175 90)" fill="#2E7D32" opacity="0.55"/>
+    <ellipse cx="72" cy="132" rx="24" ry="10" transform="rotate(-12 72 132)" fill="#2E7D32" opacity="0.5"/>
+    <ellipse cx="178" cy="132" rx="24" ry="10" transform="rotate(12 178 132)" fill="#2E7D32" opacity="0.5"/>
+  </svg>
+  <!-- Leaf right -->
+  <svg class="motif" style="top:40px;right:-30px;width:160px;height:180px;opacity:0.12;transform:rotate(30deg);" viewBox="0 0 200 220" fill="none">
+    <path d="M100 210C100 210 30 160 25 80C20 0 100 20 100 20C100 20 180 0 175 80C170 160 100 210 100 210Z" fill="#2E7D32"/>
+    <path d="M100 200V30" stroke="#2E7D32" stroke-width="2"/>
+    <path d="M100 70C70 55 45 65 35 85" stroke="#2E7D32" stroke-width="1.5" fill="none"/>
+    <path d="M100 120C130 105 155 115 165 135" stroke="#2E7D32" stroke-width="1.5" fill="none"/>
+  </svg>
+  <!-- Vine bottom -->
+  <svg class="motif" style="bottom:310px;left:20px;width:200px;height:80px;opacity:0.09;" viewBox="0 0 350 180" fill="none">
+    <path d="M0 90C40 80 80 100 120 85C160 70 200 95 240 80C280 65 320 90 350 75" stroke="#2E7D32" stroke-width="3" fill="none"/>
+    <ellipse cx="90" cy="84" rx="14" ry="8" transform="rotate(-20 90 84)" fill="#2E7D32" opacity="0.6"/>
+    <ellipse cx="210" cy="82" rx="14" ry="8" transform="rotate(15 210 82)" fill="#2E7D32" opacity="0.55"/>
+  </svg>
+  <div class="copy">
+    <div class="app-badge"><img src="../../assets/icons/app_icon.png" alt=""><span>Furrow</span></div>
+    <div class="headline">See your garden's<br>full picture</div>
+    <div class="subline">Analytics dashboard with harvest charts,<br>top plants, and quality ratings</div>
+  </div>
+  <div class="phone-wrap"><div class="phone-frame"><div class="phone-screen">
+    <img src="../../assets/images/Screenshot_analytics.png" alt="Analytics">
+  </div></div></div>
+</div>
+
+<script>
+// Load html2canvas for export
+async function loadH2C() {
+  if (window.html2canvas) return;
+  return new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+    s.onload = resolve;
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
+}
+
+async function exportScreenshot(id, filename) {
+  await loadH2C();
+  const el = document.getElementById(id);
+  const canvas = await html2canvas(el, {
+    scale: 2,
+    useCORS: true,
+    allowTaint: true,
+    backgroundColor: null,
+  });
+
+  // Scale to exactly 1080x1920
+  const out = document.createElement('canvas');
+  out.width = 1080;
+  out.height = 1920;
+  out.getContext('2d').drawImage(canvas, 0, 0, 1080, 1920);
+
+  const link = document.createElement('a');
+  link.download = filename;
+  link.href = out.toDataURL('image/png');
+  link.click();
+  return new Promise(r => setTimeout(r, 800));
+}
+
+async function exportAll() {
+  const list = [
+    ['ss-garden', 'screenshot-1-garden.png'],
+    ['ss-detail', 'screenshot-2-detail.png'],
+    ['ss-journal', 'screenshot-3-journal.png'],
+    ['ss-alerts', 'screenshot-4-alerts.png'],
+    ['ss-seasons', 'screenshot-5-seasons.png'],
+    ['ss-analytics', 'screenshot-6-analytics.png'],
+  ];
+  for (const [id, name] of list) {
+    await exportScreenshot(id, name);
+    console.log('Exported:', name);
+  }
+  console.log('All done!');
+  window._allExported = true;
+}
+</script>
+</body>
+</html>
