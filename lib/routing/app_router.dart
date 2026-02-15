@@ -17,6 +17,7 @@ import '../features/settings/presentation/screens/settings_screen.dart';
 import '../features/analytics/presentation/screens/analytics_screen.dart';
 import '../features/seasons/presentation/screens/season_detail_screen.dart';
 import '../features/paywall/presentation/screens/paywall_screen.dart';
+import '../features/ai/presentation/screens/chat_screen.dart';
 import '../features/onboarding/presentation/screens/onboarding_screen.dart';
 
 /// Navigator keys for each tab branch
@@ -139,6 +140,14 @@ final GoRouter appRouter = GoRouter(
         child: SeasonDetailScreen(
           seasonId: state.pathParameters['id']!,
         ),
+      ),
+    ),
+    GoRoute(
+      path: '/ai-chat',
+      parentNavigatorKey: _rootNavigatorKey,
+      pageBuilder: (context, state) => AppTransitions.detail(
+        key: state.pageKey,
+        child: const ChatScreen(),
       ),
     ),
     GoRoute(

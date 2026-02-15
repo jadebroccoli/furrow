@@ -73,6 +73,19 @@ class _GardenScreenState extends ConsumerState<GardenScreen> {
               )
             : Text('My Garden', style: theme.textTheme.titleLarge),
         actions: [
+          // AI Garden Advisor
+          IconButton(
+            icon: const Icon(Icons.auto_awesome),
+            tooltip: 'Garden Advisor',
+            onPressed: () {
+              if (ref.read(isProProvider)) {
+                context.push('/ai-chat');
+              } else {
+                context.push('/paywall?feature=AI%20Garden%20Advisor');
+              }
+            },
+          ),
+
           // Search toggle
           IconButton(
             icon: Icon(_showSearch ? Icons.close : Icons.search),

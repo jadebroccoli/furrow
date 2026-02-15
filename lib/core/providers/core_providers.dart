@@ -3,6 +3,7 @@ import '../database/app_database.dart';
 import '../services/location_service.dart';
 import '../services/notification_service.dart';
 import '../services/revenue_cat_service.dart';
+import '../services/ai_service.dart';
 import '../services/weather_service.dart';
 
 /// Database provider - singleton instance
@@ -30,4 +31,9 @@ final notificationServiceProvider = Provider<NotificationService>((ref) {
 /// RevenueCat service provider
 final revenueCatServiceProvider = Provider<RevenueCatService>((ref) {
   return RevenueCatService.instance;
+});
+
+/// AI service provider
+final aiServiceProvider = Provider<AiService>((ref) {
+  return AiService();
 });

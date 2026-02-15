@@ -24,7 +24,11 @@ class AppConstants {
 
   // Database
   static const String databaseName = 'furrow.db';
-  static const int databaseVersion = 2;
+  static const int databaseVersion = 3;
+
+  // AI Proxy (OpenClaw VPS)
+  static const String aiProxyBaseUrl = 'http://100.124.69.21:3100';
+  static const int aiChatDailyLimit = 20;
 
   // Photo
   static const double maxPhotoWidth = 1024;

@@ -11,6 +11,7 @@ import 'tables/garden_beds_table.dart';
 import 'tables/journal_entries_table.dart';
 import 'tables/seasons_table.dart';
 import 'tables/harvests_table.dart';
+import 'tables/ai_chat_messages_table.dart';
 
 part 'app_database.g.dart';
 
@@ -22,6 +23,7 @@ part 'app_database.g.dart';
   JournalEntries,
   Seasons,
   Harvests,
+  AiChatMessages,
 ])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
@@ -48,6 +50,10 @@ class AppDatabase extends _$AppDatabase {
             '  SELECT name FROM plants WHERE plants.id = harvests.plant_id'
             ')',
           );
+        }
+        if (from < 3) {
+          // v3: Add AI chat messages table
+          await m.createTable(aiChatMessages);
         }
       },
     );
@@ -242,6 +248,40 @@ class AppDatabase extends _$AppDatabase {
   /// Delete a harvest
   Future<int> deleteHarvestById(String harvestId) {
     return (delete(harvests)..where((t) => t.id.equals(harvestId))).go();
+  }
+
+  // ─── AI Chat Messages CRUD ──────────────────────────────
+
+  /// Watch all chat messages, oldest first (chat order)
+  Stream<List<AiChatMessage>> watchAllChatMessages() {
+    return (select(aiChatMessages)
+          ..orderBy([
+            (t) => OrderingTerm(
+                expression: t.createdAt, mode: OrderingMode.asc)
+          ]))
+        .watch();
+  }
+
+  /// Insert a chat message
+  Future<void> insertChatMessage(AiChatMessagesCompanion message) {
+    return into(aiChatMessages).insert(message);
+  }
+
+  /// Get the last N chat messages (for context window)
+  Future<List<AiChatMessage>> getRecentChatMessages(int limit) {
+    return (select(aiChatMessages)
+          ..orderBy([
+            (t) => OrderingTerm(
+                expression: t.createdAt, mode: OrderingMode.desc)
+          ])
+          ..limit(limit))
+        .get()
+        .then((rows) => rows.reversed.toList());
+  }
+
+  /// Clear all chat history
+  Future<int> clearChatHistory() {
+    return delete(aiChatMessages).go();
   }
 }
 
